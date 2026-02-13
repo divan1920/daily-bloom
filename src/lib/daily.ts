@@ -72,6 +72,16 @@ const FALLBACK_QUOTES = [
   { content: "It is during our darkest moments that we must focus to see the light.", author: "Aristotle" },
 ];
 
+// Detect if gradient colors are predominantly light
+export function isLightGradient(colors: string[]): boolean {
+  const lightnesses = colors.map(c => {
+    const match = c.match(/hsl\(\d+,\s*\d+%,\s*(\d+)%\)/);
+    return match ? parseInt(match[1]) : 50;
+  });
+  const avg = lightnesses.reduce((a, b) => a + b, 0) / lightnesses.length;
+  return avg > 55;
+}
+
 export async function fetchQuote(): Promise<{ content: string; author: string }> {
   try {
     const res = await fetch('https://api.quotable.io/random', { signal: AbortSignal.timeout(5000) });

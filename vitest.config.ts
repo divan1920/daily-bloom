@@ -4,6 +4,7 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
+  base:'/daily-bloom/',
   test: {
     environment: "jsdom",
     globals: true,
